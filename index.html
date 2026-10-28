@@ -24,6 +24,8 @@
             --radius-lg: 24px;
             --radius-md: 16px;
             --radius-sm: 8px;
+            --tab-active: #3498db;
+            --tab-bg: rgba(0, 0, 0, 0.04);
         }
 
         /* הגדרות צבעים ייעודיות למצב לילה (Dark Mode) */
@@ -34,6 +36,7 @@
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
             --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.3);
+            --tab-bg: rgba(255, 255, 255, 0.05);
         }
 
         * {
@@ -76,7 +79,8 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-            margin-bottom: 35px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .btn-top {
@@ -90,6 +94,7 @@
             align-items: center;
             gap: 10px;
             color: #ffffff;
+            transition: transform 0.2s, background 0.2s;
         }
 
         .btn-excel {
@@ -101,6 +106,15 @@
             transform: translateY(-2px);
         }
 
+        .btn-archive {
+            background: var(--warning);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.3);
+        }
+        .btn-archive:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
         .btn-theme {
             background: #475569;
             box-shadow: 0 5px 15px rgba(71, 85, 105, 0.3);
@@ -109,6 +123,47 @@
             background: #334155;
             transform: translateY(-2px);
         }
+
+        /* עיצוב מערכת הטאבים החדשה */
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 35px;
+        }
+
+        .tabs-wrapper {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 6px;
+            border-radius: 40px;
+            border: 1px solid var(--card-border);
+            display: flex;
+            gap: 5px;
+            box-shadow: var(--shadow-float);
+        }
+
+        .tab-btn {
+            padding: 10px 30px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--tab-active);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
         /* לוח מנהלים עליון (Dashboard Widgets) */
         .manager-dashboard {
             display: grid;
@@ -141,7 +196,6 @@
             font-size: 1.5rem;
             color: #ffffff;
         }
-
         .widget-info {
             display: flex;
             flex-direction: column;
@@ -162,10 +216,19 @@
         .bg-blue { background: #3498db; box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3); }
         .bg-green { background: #2ecc71; box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3); }
         .bg-purple { background: #9b59b6; box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3); }
+        
         /* גריד וכרטיסי יועצים */
         .container {
             max-width: 1440px;
             margin: 0 auto;
+        }
+
+        .view-section {
+            display: none;
+        }
+
+        .view-section.active {
+            display: block;
         }
 
         .advisors-grid {
@@ -215,6 +278,7 @@
             padding: 6px 14px;
             border-radius: 30px;
         }
+        body.dark-mode .goal-input-group { background: rgba(255, 255, 255, 0.05); }
 
         .target-input {
             border: none;
@@ -238,6 +302,7 @@
             display: flex;
             align-items: center;
         }
+        body.dark-mode .progress-container { background: rgba(255, 255, 255, 0.1); }
 
         .progress-bar {
             background: linear-gradient(90deg, #3498db, #2980b9);
@@ -344,6 +409,7 @@
         .case-collapsed-price {
             color: var(--primary);
         }
+
         .case-form-content {
             padding: 16px;
             border-top: 1px solid rgba(0,0,0,0.05);
@@ -411,14 +477,13 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
-        /* 🛠️ תיקון קריטי: העלאת הכפתורים לקדמת המסך ומניעת חסימה */
         .case-actions-group {
             position: absolute;
             top: 13px;
             left: 10px;
             display: flex;
             gap: 12px;
-            z-index: 20; /* שכבה עליונה ביותר מעל אזור הלחיצה המקוצר */
+            z-index: 20;
         }
 
         .btn-action-icon {
@@ -451,8 +516,60 @@
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.25);
         }
         .btn-add-case:hover { background: #2980b9; }
+        /* עיצוב פרימיום לטבלה השנתית המצטברת */
+        .archive-table-container {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--card-border);
+            box-shadow: var(--shadow-float);
+            padding: 30px;
+            max-width: 1440px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
 
-        @media (max-width: 480px) {
+        .archive-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            color: var(--text-main);
+        }
+
+        .archive-table th, .archive-table td {
+            padding: 16px 20px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            font-size: 0.95rem;
+        }
+        body.dark-mode .archive-table th, body.dark-mode .archive-table td {
+            border-bottom-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .archive-table th {
+            font-weight: bold;
+            color: var(--text-muted);
+            background: rgba(0, 0, 0, 0.02);
+        }
+        body.dark-mode .archive-table th { background: rgba(255, 255, 255, 0.02); }
+
+        .archive-table tr:hover {
+            background: rgba(0, 0, 0, 0.01);
+        }
+        body.dark-mode .archive-table tr:hover { background: rgba(255, 255, 255, 0.01); }
+
+        .badge-info {
+            background: rgba(52, 152, 219, 0.1);
+            color: #2980b9;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .text-center { text-align: center; }
+
+        @media (max-width: 768px) {
             .advisors-grid { grid-template-columns: 1fr; }
         }
     </style>
@@ -464,129 +581,204 @@
         <p>מעקב יעדים והפניות בזמן אמת - שמירה אוטומטית בדפדפן</p>
     </header>
 
+    <!-- סרגל כפתורי ניהול עליון -->
     <div class="action-bar">
-        <button class="btn-top btn-excel" onclick="exportToExcel()"><i class="fa-solid fa-file-excel"></i> שמירה וייצוא לאקסל</button>
+        <button class="btn-top btn-excel" onclick="exportToExcel()"><i class="fa-solid fa-file-excel"></i> ייצוא דוח חודשי לאקסל</button>
+        <button class="btn-top btn-archive" onclick="archiveCurrentMonth()"><i class="fa-solid fa-box-archive"></i> סגירת חודש מבוקרת</button>
         <button class="btn-top btn-theme" onclick="toggleTheme()"><i class="fa-solid fa-moon"></i> מצב לילה / בהיר</button>
     </div>
 
-    <!-- לוח מנהלים עליון (Dashboard Widgets) -->
+    <!-- מערכת הטאבים בראש העמוד למעבר תצוגה -->
+    <div class="tabs-container">
+        <div class="tabs-wrapper">
+            <button class="tab-btn active" id="tab-monthly" onclick="switchView('monthly')">
+                <i class="fa-solid fa-calendar-day"></i> מבט חודשי
+            </button>
+            <button class="tab-btn" id="tab-yearly" onclick="switchView('yearly')">
+                <i class="fa-solid fa-calendar-days"></i> מבט מצטבר (שנתי)
+            </button>
+        </div>
+    </div>
+
+    <!-- לוח מנהלים עליון דינמי (Dashboard Widgets) -->
     <div class="manager-dashboard">
         <div class="widget-card">
             <div class="widget-icon bg-blue"><i class="fa-solid fa-folder-tree"></i></div>
             <div class="widget-info">
-                <span class="widget-title">סך הכל תיקים פעילים בחברה</span>
+                <span class="widget-title" id="dashboard-title-1">סך הכל תיקים פעילים</span>
                 <span class="widget-value" id="global-active-count">0</span>
             </div>
         </div>
         <div class="widget-card">
             <div class="widget-icon bg-green"><i class="fa-solid fa-money-bill-trend-up"></i></div>
             <div class="widget-info">
-                <span class="widget-title">סך הכנסה מצטברת במשרד</span>
+                <span class="widget-title" id="dashboard-title-2">סך הכנסה מצטברת</span>
                 <span class="widget-value" id="global-total-amount">₪0</span>
             </div>
         </div>
         <div class="widget-card">
             <div class="widget-icon bg-purple"><i class="fa-solid fa-chart-line"></i></div>
             <div class="widget-info">
-                <span class="widget-title">אחוז עמידה ביעדים כללי</span>
+                <span class="widget-title" id="dashboard-title-3">אחוז עמידה ביעדים</span>
                 <span class="widget-value" id="global-progress-percent">0%</span>
             </div>
         </div>
     </div>
-
     <main class="container">
-        <div class="advisors-grid">
-            <!-- כרטיס יועץ: יעקב -->
-            <section class="advisor-card" id="advisor-yaakov">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-user-tie icon-yaakov"></i> יעקב</h2>
-                    <div class="goal-input-group">
-                        <label><i class="fa-solid fa-bullseye"></i> יעד חודשי:</label>
-                        <input type="number" class="target-input" value="100000" oninput="updateStats('yaakov')">
+        
+        <!-- SECTION 1: תצוגה חודשית שוטפת -->
+        <div id="section-monthly" class="view-section active">
+            <div class="advisors-grid">
+                
+                <!-- כרטיס יועץ: יעקב -->
+                <section class="advisor-card" id="advisor-yaakov">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-user-tie icon-yaakov"></i> יעקב</h2>
+                        <div class="goal-input-group">
+                            <label><i class="fa-solid fa-bullseye"></i> יעד:</label>
+                            <input type="number" class="target-input" value="100000" oninput="updateStats('yaakov')">
+                        </div>
                     </div>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-yaakov"></div>
-                    <span class="progress-text" id="progress-text-yaakov">0%</span>
-                </div>
-                
-                <div class="card-summary">
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> תיקים פעילים</span><span class="stat-value active-count">0</span></div>
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
-                    <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> סכום מצטבר</span><span class="stat-value total-amount">₪0</span></div>
-                    <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
-                </div>
-
-                <div class="cases-container" id="cases-yaakov"></div>
-                <button class="btn-add-case" onclick="createNewCase('yaakov')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
-            </section>
-
-            <!-- כרטיס יועץ: דורון -->
-            <section class="advisor-card" id="advisor-doron">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-user-tie icon-doron"></i> דורון</h2>
-                    <div class="goal-input-group">
-                        <label><i class="fa-solid fa-bullseye"></i> יעד חודשי:</label>
-                        <input type="number" class="target-input" value="120000" oninput="updateStats('doron')">
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-yaakov"></div>
+                        <span class="progress-text" id="progress-text-yaakov">0%</span>
                     </div>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-doron"></div>
-                    <span class="progress-text" id="progress-text-doron">0%</span>
-                </div>
-                
-                <div class="card-summary">
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> תיקים פעילים</span><span class="stat-value active-count">0</span></div>
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
-                    <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> סכום מצטבר</span><span class="stat-value total-amount">₪0</span></div>
-                    <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
-                </div>
-
-                <div class="cases-container" id="cases-doron"></div>
-                <button class="btn-add-case" onclick="createNewCase('doron')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
-            </section>
-
-            <!-- כרטיס יועץ: אביב -->
-            <section class="advisor-card" id="advisor-aviv">
-                <div class="card-header">
-                    <h2><i class="fa-solid fa-user-tie icon-aviv"></i> אביב</h2>
-                    <div class="goal-input-group">
-                        <label><i class="fa-solid fa-bullseye"></i> יעד חודשי:</label>
-                        <input type="number" class="target-input" value="90000" oninput="updateStats('aviv')">
+                    
+                    <div class="card-summary">
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> פעילים</span><span class="stat-value active-count">0</span></div>
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
+                        <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> מצטבר</span><span class="stat-value total-amount">₪0</span></div>
+                        <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
                     </div>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar" id="progress-aviv"></div>
-                    <span class="progress-text" id="progress-text-aviv">0%</span>
-                </div>
-                
-                <div class="card-summary">
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> תיקים פעילים</span><span class="stat-value active-count">0</span></div>
-                    <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
-                    <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> סכום מצטבר</span><span class="stat-value total-amount">₪0</span></div>
-                    <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
-                </div>
 
-                <div class="cases-container" id="cases-aviv"></div>
-                <button class="btn-add-case" onclick="createNewCase('aviv')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
-            </section>
+                    <div class="cases-container" id="cases-yaakov"></div>
+                    <button class="btn-add-case" onclick="createNewCase('yaakov')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
+                </section>
 
+                <!-- כרטיס יועץ: דורון -->
+                <section class="advisor-card" id="advisor-doron">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-user-tie icon-doron"></i> דורון</h2>
+                        <div class="goal-input-group">
+                            <label><i class="fa-solid fa-bullseye"></i> יעד:</label>
+                            <input type="number" class="target-input" value="120000" oninput="updateStats('doron')">
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-doron"></div>
+                        <span class="progress-text" id="progress-text-doron">0%</span>
+                    </div>
+                    
+                    <div class="card-summary">
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> פעילים</span><span class="stat-value active-count">0</span></div>
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
+                        <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> מצטבר</span><span class="stat-value total-amount">₪0</span></div>
+                        <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
+                    </div>
+
+                    <div class="cases-container" id="cases-doron"></div>
+                    <button class="btn-add-case" onclick="createNewCase('doron')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
+                </section>
+
+                <!-- כרטיס יועץ: אביב -->
+                <section class="advisor-card" id="advisor-aviv">
+                    <div class="card-header">
+                        <h2><i class="fa-solid fa-user-tie icon-aviv"></i> אביב</h2>
+                        <div class="goal-input-group">
+                            <label><i class="fa-solid fa-bullseye"></i> יעד:</label>
+                            <input type="number" class="target-input" value="90000" oninput="updateStats('aviv')">
+                        </div>
+                    </div>
+                    
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progress-aviv"></div>
+                        <span class="progress-text" id="progress-text-aviv">0%</span>
+                    </div>
+                    
+                    <div class="card-summary">
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-open"></i> פעילים</span><span class="stat-value active-count">0</span></div>
+                        <div class="stat-box"><span class="stat-label"><i class="fa-solid fa-folder-minus"></i> לא פעילים</span><span class="stat-value inactive-count">0</span></div>
+                        <div class="stat-box status-box-amount"><span class="stat-label"><i class="fa-solid fa-coins"></i> מצטבר</span><span class="stat-value total-amount">₪0</span></div>
+                        <div class="stat-box status-box-remaining"><span class="stat-label"><i class="fa-solid fa-hourglass-half"></i> נותר ליעד</span><span class="stat-value remaining-amount">₪0</span></div>
+                    </div>
+
+                    <div class="cases-container" id="cases-aviv"></div>
+                    <button class="btn-add-case" onclick="createNewCase('aviv')"><i class="fa-solid fa-plus"></i> הוספת תיק חדש</button>
+                </section>
+
+            </div>
         </div>
+
+        <!-- SECTION 2: תצוגה מצטברת (ארכיון שנתי) -->
+        <div id="section-yearly" class="view-section">
+            <div class="archive-table-container">
+                <table class="archive-table">
+                    <thead>
+                        <tr>
+                            <th>חודש / שנה</th>
+                            <th>יעקב (ביצוע/יעד)</th>
+                            <th>דורון (ביצוע/יעד)</th>
+                            <th>אביב (ביצוע/יעד)</th>
+                            <th class="text-center">הפניות ביטוח</th>
+                            <th class="text-center">הפניות שמאות</th>
+                            <th>סך הכל משרדי</th>
+                        </tr>
+                    </thead>
+                    <tbody id="archive-table-body">
+                        <!-- שורות הארכיון יוזרקו לכאן דינמית באמצעות JS -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
     </main>
 
     <script>
         const ADVISORS = ['yaakov', 'doron', 'aviv'];
         const STORAGE_KEY = 'v8_final_premium_data';
+        const ARCHIVE_STORAGE_KEY = 'v8_premium_archive_data';
+
+        // משתנה גלובלי למעקב אחר הטאב הפעיל הנוכחי
+        let currentView = 'monthly'; 
 
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
+            loadArchiveData();
             if (localStorage.getItem('premium_theme') === 'dark') {
                 document.body.classList.add('dark-mode');
             }
         });
+
+        /**
+         * מנגנון החלפת טאבים בין מבט חודשי למבט שנתי מצטבר
+         */
+        function switchView(view) {
+            currentView = view;
+            
+            // עדכון מחלקות אקטיביות בכפתורים
+            document.getElementById('tab-monthly').classList.toggle('active', view === 'monthly');
+            document.getElementById('tab-yearly').classList.toggle('active', view === 'yearly');
+            
+            // הצגת/הסתרת הסקשנים המתאימים
+            document.getElementById('section-monthly').classList.toggle('active', view === 'monthly');
+            document.getElementById('section-yearly').classList.toggle('active', view === 'yearly');
+            
+            // עדכון כותרות הלוח העליון בהתאם למבט הנבחר
+            if (view === 'monthly') {
+                document.getElementById('dashboard-title-1').textContent = 'סך הכל תיקים פעילים';
+                document.getElementById('dashboard-title-2').textContent = 'סך הכנסה מצטברת';
+                document.getElementById('dashboard-title-3').textContent = 'אחוז עמידה ביעדים';
+                updateGlobalDashboard();
+            } else {
+                document.getElementById('dashboard-title-1').textContent = 'סך חודשים מאורכבים';
+                document.getElementById('dashboard-title-2').textContent = 'מחזור משרדי שנתי';
+                document.getElementById('dashboard-title-3').textContent = 'ממוצע עמידה שנתי';
+                updateGlobalArchiveDashboard();
+            }
+        }
+
         /**
          * יצירת כרטיס תיק פנימי חדש (Accordion)
          */
@@ -630,6 +822,7 @@
                         <span class="collapsed-price-text">₪${Number(values.price).toLocaleString()}</span>
                     </div>
                 </div>
+                
                 <!-- טופס נתונים פנימי מלא ונפתח -->
                 <div class="case-form-content" style="display: ${values.isCollapsed ? 'none' : 'grid'};">
                     <div class="case-field full-width">
@@ -649,7 +842,7 @@
                     </div>
                     <div class="case-field">
                         <label><i class="fa-solid fa-shield-halved"></i> הפניית ביטוח</label>
-                        <select class="c-ins" onchange="toggleAgentField(this); saveData();">
+                        <select class="c-ins" onchange="toggleAgentField(this); updateStats('${advisorId}');">
                             <option value="לא" ${values.insurance === 'לא' ? 'selected' : ''}>לא</option>
                             <option value="כן" ${values.insurance === 'כן' ? 'selected' : ''}>כן</option>
                         </select>
@@ -660,7 +853,7 @@
                     </div>
                     <div class="case-field">
                         <label><i class="fa-solid fa-calculator"></i> הפניית שמאות</label>
-                        <select class="c-app" onchange="toggleAppraiserField(this); saveData();">
+                        <select class="c-app" onchange="toggleAppraiserField(this); updateStats('${advisorId}');">
                             <option value="לא" ${values.appraisal === 'לא' ? 'selected' : ''}>לא</option>
                             <option value="כן" ${values.appraisal === 'כן' ? 'selected' : ''}>כן</option>
                         </select>
@@ -700,7 +893,7 @@
                 appraisal: caseItem.querySelector('.c-app').value,
                 appraiserName: caseItem.querySelector('.c-appraiser-name')?.value || '',
                 source: caseItem.querySelector('.c-src').value,
-                isCollapsed: true // התיק המשוכפל ייווצר כשהוא סגור בצורה נקייה
+                isCollapsed: true 
             };
             createNewCase(advisorId, clonedData);
         }
@@ -763,6 +956,7 @@
                 updateStats(advisorId);
             }
         }
+
         /**
          * עדכון סטטיסטיקות, חישוב פסי התקדמות ועדכון לוח מנהלים עליון
          */
@@ -809,13 +1003,15 @@
                 bar.classList.toggle('completed', percent >= 100);
             }
 
-            // עדכון המדדים המשולבים בכל החברה
-            updateGlobalDashboard();
+            // עדכון המדדים המשולבים בכל החברה (רק אם אנחנו במבט חודשי)
+            if (currentView === 'monthly') {
+                updateGlobalDashboard();
+            }
             saveData();
         }
 
         /**
-         * חישוב מרוכז ועדכון הנתונים של כל המשרד בלוח המנהלים העליון
+         * חישוב מרוכז ועדכון הנתונים של כל המשרד בלוח המנהלים העליון (מבט חודשי)
          */
         function updateGlobalDashboard() {
             let globalActive = 0;
@@ -847,15 +1043,156 @@
             document.getElementById('global-progress-percent').textContent = `${globalPercent}%`;
         }
         /**
-         * מעבר דינמי בין מצב בהיר למצב לילה יוקרתי ושמירת הבחירה
+         * מנגנון סגירת חודש מבוקרת: צילום מצב פיננסי והזרקה לטבלה השנתית
+         * המנגנון כולל שורת בקרה ואישור, ומאפשר עדכון (דריסה) בטוח במקום מחיקה
          */
-        function toggleTheme() {
-            const isDark = document.body.classList.toggle('dark-mode');
-            localStorage.setItem('premium_theme', isDark ? 'dark' : 'light');
+        function archiveCurrentMonth() {
+            // 1. בחירת חודש ושנה מבוקשים על ידי המשתמש
+            const monthInput = prompt("עבור איזה חודש ושנה ברצונך לבצע סגירת נתונים? (לדוגמה: 10/2026):");
+            if (!monthInput || monthInput.trim() === "") return;
+            
+            const cleanMonth = monthInput.trim();
+
+            // 2. שורת בקרה ואישור חיונית למניעת טעויות אנוש
+            const isConfirmed = confirm(`האם חודש ${cleanMonth} עבר בקרה פיננסית מלאה ונסגר סופית?\nלחץ 'אישור' כדי לנעול את הנתונים.`);
+            if (!isConfirmed) return;
+
+            // 3. איסוף וחישוב הנתונים הנוכחיים של כל היועצים ומקורות ההפניה
+            const archiveData = JSON.parse(localStorage.getItem(ARCHIVE_STORAGE_KEY)) || {};
+            
+            // בדיקת קיום חודש לצורך הודעת דריסה ועדכון בטוח
+            if (archiveData[cleanMonth]) {
+                const isOverwrite = confirm(`נתוני חודש ${cleanMonth} כבר קיימים במערכת.\nהאם ברצונך לעדכן ולדרוס אותם לפי נתוני הבקרה החדשים?`);
+                if (!isOverwrite) return;
+            }
+
+            const snapshot = {
+                month: cleanMonth,
+                advisors: {},
+                insuranceCount: 0,
+                appraisalCount: 0,
+                officeTotal: 0,
+                officeTarget: 0
+            };
+
+            ADVISORS.forEach(id => {
+                const card = document.getElementById(`advisor-${id}`);
+                if (!card) return;
+
+                const target = parseFloat(card.querySelector('.target-input').value) || 0;
+                let total = 0;
+
+                const items = card.querySelectorAll('.case-item');
+                items.forEach(item => {
+                    const status = item.querySelector('.c-status').value;
+                    const price = parseFloat(item.querySelector('.c-price').value) || 0;
+                    const insurance = item.querySelector('.c-ins').value;
+                    const appraisal = item.querySelector('.c-app').value;
+
+                    if (status === 'פעיל') {
+                        total += price;
+                        if (insurance === 'כן') snapshot.insuranceCount++;
+                        if (appraisal === 'כן') snapshot.appraisalCount++;
+                    }
+                });
+
+                snapshot.advisors[id] = {
+                    total: total,
+                    target: target
+                };
+
+                snapshot.officeTotal += total;
+                snapshot.officeTarget += target;
+            });
+
+            // 4. שמירה בארכיון והודעה למשתמש
+            archiveData[cleanMonth] = snapshot;
+            localStorage.setItem(ARCHIVE_STORAGE_KEY, JSON.stringify(archiveData));
+            
+            alert(`נתוני חודש ${cleanMonth} נרשמו, עברו בקרה ואורכבו בהצלחה בטבלה השנתית המצטברת.`);
+            
+            // ריענון התצוגה של הטבלה והדאשבורד הארכיוני
+            loadArchiveData();
+            if (currentView === 'yearly') {
+                updateGlobalArchiveDashboard();
+            }
         }
 
         /**
-         * שמירת כל המידע והסטטוס המעודכן ב-LocalStorage של הדפדפן
+         * טעינה ושחזור הנתונים המאורכבים והצגתם בטבלה השנתית
+         */
+        function loadArchiveData() {
+            const raw = localStorage.getItem(ARCHIVE_STORAGE_KEY);
+            const tbody = document.getElementById('archive-table-body');
+            if (!tbody) return;
+
+            tbody.innerHTML = '';
+
+            if (!raw) {
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center" style="color:var(--text-muted);">אין עדיין חודשים מאורכבים במערכת. בצע 'סגירת חודש' כדי להציג מידע שנתי.</td></tr>`;
+                return;
+            }
+
+            const archiveData = JSON.parse(raw);
+            const sortedMonths = Object.keys(archiveData).sort(); // מיון בסיסי לפי חודשים
+
+            sortedMonths.forEach(month => {
+                const snapshot = archiveData[month];
+                const tr = document.createElement('tr');
+
+                // חישוב אחוז עמידה משרדי כולל לאותו החודש
+                const officePercent = snapshot.officeTarget > 0 ? Math.round((snapshot.officeTotal / snapshot.officeTarget) * 100) : 0;
+
+                tr.innerHTML = `
+                    <td><strong>${snapshot.month}</strong></td>
+                    <td>₪${snapshot.advisors.yaakov.total.toLocaleString()} / ₪${snapshot.advisors.yaakov.target.toLocaleString()}</td>
+                    <td>₪${snapshot.advisors.doron.total.toLocaleString()} / ₪${snapshot.advisors.doron.target.toLocaleString()}</td>
+                    <td>₪${snapshot.advisors.aviv.total.toLocaleString()} / ₪${snapshot.advisors.aviv.target.toLocaleString()}</td>
+                    <td class="text-center"><span class="badge-info">${snapshot.insuranceCount}</span></td>
+                    <td class="text-center"><span class="badge-info">${snapshot.appraisalCount}</span></td>
+                    <td>
+                        <strong>₪${snapshot.officeTotal.toLocaleString()}</strong> 
+                        <span style="color: ${officePercent >= 100 ? 'var(--success)' : 'var(--warning)'}; font-weight:bold; margin-right:8px;">(${officePercent}%)</span>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        /**
+         * עדכון לוח המנהלים העליון (Widgets) במבט השנתי המצטבר
+         */
+        function updateGlobalArchiveDashboard() {
+            const raw = localStorage.getItem(ARCHIVE_STORAGE_KEY);
+            if (!raw) {
+                document.getElementById('global-active-count').textContent = '0';
+                document.getElementById('global-total-amount').textContent = '₪0';
+                document.getElementById('global-progress-percent').textContent = '0%';
+                return;
+            }
+
+            const archiveData = JSON.parse(raw);
+            const months = Object.keys(archiveData);
+            
+            let totalYearlyVolume = 0;
+            let combinedProgressSum = 0;
+
+            months.forEach(m => {
+                const snap = archiveData[m];
+                totalYearlyVolume += snap.officeTotal;
+                
+                const monthPercent = snap.officeTarget > 0 ? (snap.officeTotal / snap.officeTarget) * 100 : 0;
+                combinedProgressSum += monthPercent;
+            });
+
+            const averageYearlyProgress = months.length > 0 ? Math.round(combinedProgressSum / months.length) : 0;
+
+            document.getElementById('global-active-count').textContent = months.length;
+            document.getElementById('global-total-amount').textContent = `₪${totalYearlyVolume.toLocaleString()}`;
+            document.getElementById('global-progress-percent').textContent = `${averageYearlyProgress}%`;
+        }
+        /**
+         * שמירת כל המידע והסטטוס המעודכן ב-LocalStorage של הדפדפן (מבט חודשי)
          */
         function saveData() {
             const data = {};
@@ -888,7 +1225,7 @@
         }
 
         /**
-         * טעינת ושחזור הנתונים השמורים בעת פתיחה מחדש של הדף
+         * טעינת ושחזור הנתונים השמורים בעת פתיחה מחדש של הדף (מבט חודשי)
          */
         function loadData() {
             const raw = localStorage.getItem(STORAGE_KEY);
@@ -916,7 +1253,7 @@
         function exportToExcel() {
             const raw = localStorage.getItem(STORAGE_KEY);
             if (!raw) {
-                alert('אין נתונים זמינים לייצוא כרגע.');
+                alert('אין נתונים חודשיים זמינים לייצוא כרגע.');
                 return;
             }
 
@@ -951,12 +1288,20 @@
             if (link.download !== undefined) {
                 const url = URL.createObjectURL(blob);
                 link.setAttribute("href", url);
-                link.setAttribute("download", "דוח_תיקים_ויעדים_מרוכז.csv");
+                link.setAttribute("download", "דוח_תיקים_חודשי_מבוקר.csv");
                 link.style.visibility = 'hidden';
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
             }
+        }
+
+        /**
+         * מעבר דינמי בין מצב בהיר למצב לילה יוקרתי ושמירת הבחירה
+         */
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-mode');
+            localStorage.setItem('premium_theme', isDark ? 'dark' : 'light');
         }
     </script>
 </body>
